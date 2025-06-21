@@ -8,6 +8,7 @@ struct Patient
     Patient *next;
 };
 void displayMenu(int &n);
+int countPatients(Patient *headptr);
 void addPatient(Patient **headptr);
 void displayPatients(Patient *headptr);
 void searchPatient(Patient *headptr);
@@ -30,6 +31,9 @@ int main()
 
         {
         case 1:
+            system("cls");
+            std::cout << "Number Of Patients: " << countPatients(headpointer);
+
             addPatient(&headpointer);
             break;
         case 2:
@@ -43,6 +47,7 @@ int main()
             break;
         case 5:
             freeMemory(headpointer);
+            return 0;
             break;
 
         default:
@@ -52,7 +57,7 @@ int main()
             break;
         }
 
-    } while (menuOption > 0 && menuOption <= 5);
+    } while (menuOption >= 1 && menuOption <= 5);
 
     return 0;
 }
@@ -63,9 +68,9 @@ void displayMenu(int &n)
 }
 void addPatient(Patient **headptr)
 {
-    system("cls");
+
     Patient *newPatient = new Patient();
-    std::cout << "Adding Patient...\n";
+    std::cout << "\n\nAdding Patient...\n";
     std::cin.ignore();
     std::cout << "Name      : ";
     getline(std::cin, newPatient->name);
@@ -82,9 +87,11 @@ void addPatient(Patient **headptr)
     }
     else
     {
+
         Patient *current = *headptr;
         while (current->next != nullptr)
         {
+
             current = current->next;
         }
         current->next = newPatient;
@@ -94,9 +101,55 @@ void addPatient(Patient **headptr)
     std::cin.get();
     system("cls");
 };
+int countPatients(Patient *headptr)
+{
+    int counter = 0;
+    Patient *current1 = headptr;
+    while (current1 != nullptr)
+    {
+        counter++;
+        current1 = current1->next;
+    }
+    return counter;
+
+    int count = 0;
+    Patient *current = headptr;
+    while (current != nullptr)
+    {
+        count++;
+        current = current->next;
+    }
+    return count;
+}
 void displayPatients(Patient *headptr)
 {
-    std::cout << "Displaying Patients";
+    int tracker = 0;
+    if (headptr == nullptr)
+    {
+        system("cls");
+        std::cin.ignore();
+        std::cout << "There Are No Saved Patients.\nEnter To Return To Menu...";
+        std::cin.get();
+        system("cls");
+    }
+    else
+    {
+        system("cls");
+        while (headptr != nullptr)
+        {
+            std::cout << "Patient No: " << tracker + 1 << '\n';
+            std::cout << "Name      : " << headptr->name << '\n';
+            std::cout << "Age       : " << headptr->age << '\n';
+            std::cout << "Condition : " << headptr->condition << '\n';
+            tracker++;
+            headptr = headptr->next;
+            std::cout << "...................................................\n\n";
+        }
+        std::cin.ignore();
+        std::cout << "Press Enter To Return To Main Menu...";
+        std::cin.get();
+        system("cls");
+    }
 };
 void searchPatient(Patient *headptr)
 {
@@ -108,5 +161,11 @@ void deletePatient(Patient *headptr)
 };
 void freeMemory(Patient *headptr)
 {
-    std::cout << "Freeing MEMORY";
+    system("cls");
+    std::cin.ignore();
+    std::cout << "Freeing Memory...\n\nPress Enter To Exit System...";
+    std::cin.get();
+    system("cls");
+    std::cout << "Thank You For Visiting.\nClosing System...";
+    return;
 };
