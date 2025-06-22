@@ -12,7 +12,7 @@ int countPatients(Patient *headptr);
 void addPatient(Patient **headptr);
 void displayPatients(Patient *headptr);
 void searchPatient(Patient *headptr);
-void deletePatient(Patient *headptr);
+void deletePatient(Patient **headptr);
 void freeMemory(Patient *headptr);
 
 int main()
@@ -43,7 +43,7 @@ int main()
             searchPatient(headpointer);
             break;
         case 4:
-            deletePatient(headpointer);
+            deletePatient(&headpointer);
             break;
         case 5:
             freeMemory(headpointer);
@@ -153,16 +153,98 @@ void displayPatients(Patient *headptr)
 };
 void searchPatient(Patient *headptr)
 {
-    std::cout << "Condition:";
-};
-void deletePatient(Patient *headptr)
+    if (headptr == nullptr)
+    {
+        system("cls");
+        std::cin.ignore();
+        std::cout << "There Are No Saved Patients.\nEnter To Return To Menu...";
+        std::cin.get();
+        system("cls");
+        return;
+    }
+    bool found = false;
+    system("cls");
+    std::string searchKey;
+    Patient *CurrentPatient = headptr;
+    system("cls");
+    std::cout << "Searching For Patient....\n\nSearch: ";
+    std::cin.ignore();
+    getline(std::cin, searchKey);
+    for (; CurrentPatient != nullptr; CurrentPatient = CurrentPatient->next)
+    {
+        if (searchKey == CurrentPatient->name)
+        {
+            found = true;
+
+            std::cout << "\nPatient Found. Details:";
+            std::cout << "\nName      :" << CurrentPatient->name;
+            std::cout << "\nAge       :" << CurrentPatient->age;
+            std::cout << "\nCondition :" << CurrentPatient->condition;
+            std::cout << "\n\nEnter To Return To Menu...";
+            std::cin.get();
+            system("cls");
+            return;
+        }
+    }
+    if (!found)
+    {
+        std::cout << "Patient Not Found";
+        std::cout << "\n\nEnter To Return To Menu...";
+        std::cin.get();
+        system("cls");
+    }
+}
+void deletePatient(Patient **headptr)
 {
-    std::cout << "Dleteting Patient";
-};
+    system("cls");
+    std::cin.ignore();
+    std::string deleteKey;
+    std::cout << "Enter Name Of Patient To Delete: ";
+    getline(std::cin, deleteKey);
+
+    Patient *current = *headptr;
+    Patient *previous = nullptr;
+
+    while (current != nullptr && current->name != deleteKey)
+    {
+        previous = current;
+        current = current->next;
+    }
+
+    if (current == nullptr)
+    {
+        std::cout << "Patient Not Found.\nPress Enter To Return To Menu...";
+        std::cin.get();
+        system("cls");
+        return;
+    }
+
+    if (previous == nullptr) // deleting head
+    {
+        *headptr = current->next;
+    }
+    else
+    {
+        previous->next = current->next;
+    }
+
+    delete current;
+
+    std::cout << "Patient Deleted Successfully.\nPress Enter To Return To Menu...";
+    std::cin.get();
+    system("cls");
+}
 void freeMemory(Patient *headptr)
 {
     system("cls");
     std::cin.ignore();
+    while (headptr != nullptr)
+    {
+        Patient *temporaryNode = headptr;
+        headptr = headptr->next;
+        delete temporaryNode;
+    }
+
     std::cout << "Freeing Memory...\n\nPress Enter To Exit System...";
     std::cin.get();
     system("cls");
