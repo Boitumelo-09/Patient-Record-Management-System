@@ -111,4 +111,4 @@ Pull requests are welcome. If you'd like to improve the UI, optimize search, or 
 
 ## 🙌 Credits
 
-Made with 🔥 by a beast in C++ who understands dynamic memory and handles pointers like a boss.
+Made with 🔥 by Boitumelo Clement Mkhondo.
